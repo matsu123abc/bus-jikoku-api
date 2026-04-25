@@ -50,11 +50,19 @@ TRAINS = [
     }
 ]
 
-# 特急ひたち・ときわ運行情報（JR）
+# 在来線特急運行情報
 TRAIN_STATUS = [
     {
         "stop_name": "在来線特急運行情報（JR東日本）",
-        "url": "https://traininfo.jreast.co.jp/train_info/express.aspx?group=hitachi_tokiwa"
+        "url": "https://traininfo.jreast.co.jp/train_info/chyokyori.aspx"
+    }
+]
+
+# Yahoo!路線検索（Web）
+YAHOO = [
+    {
+        "stop_name": "Yahoo!路線検索（Web版）",
+        "url": "https://transit.yahoo.co.jp/"
     }
 ]
 
@@ -133,11 +141,23 @@ def index():
         """
 
     html += """
-        <h2>⚠️ 特急ひたち・ときわ運行情報</h2>
+        <h2>⚠️ 在来線特急運行情報</h2>
     """
 
     # 在来線特急運行情報
     for stop in TRAIN_STATUS:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
+        <h2>🔎 Yahoo!路線検索（Web）</h2>
+    """
+
+    # Yahoo!路線検索
+    for stop in YAHOO:
         html += f"""
         <div class="stop-box">
             <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
@@ -173,5 +193,6 @@ def get_stops():
         "realtime": REALTIME,
         "trains": TRAINS,
         "train_status": TRAIN_STATUS,
+        "yahoo": YAHOO,
         "restaurants": RESTAURANTS
     }

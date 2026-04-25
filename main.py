@@ -7,7 +7,7 @@ app = FastAPI()
 # データ分類
 # -------------------------
 
-# 時刻表（バス）
+# バス時刻表
 TIMETABLES = [
     # --- 茨城交通 ---
     {
@@ -30,7 +30,7 @@ TIMETABLES = [
     }
 ]
 
-# バス位置情報（リアルタイム）
+# バス位置情報
 REALTIME = [
     {
         "stop_name": "バス位置情報（城東小学校 → 水戸駅）【茨城交通】",
@@ -47,6 +47,14 @@ TRAINS = [
     {
         "stop_name": "東京駅（JR東日本）",
         "url": "https://timetables.jreast.co.jp/timetable/list1039.html"
+    }
+]
+
+# 東京駅レストラン（GRANSTA）
+RESTAURANTS = [
+    {
+        "stop_name": "東京駅レストラン（GRANSTA）",
+        "url": "https://www.gransta.jp/shop/search.html?po=di"
     }
 ]
 
@@ -117,6 +125,18 @@ def index():
         """
 
     html += """
+        <h2>🍽️ 東京駅レストラン</h2>
+    """
+
+    # レストラン
+    for stop in RESTAURANTS:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
     </body>
     </html>
     """
@@ -131,5 +151,6 @@ def get_stops():
     return {
         "timetables": TIMETABLES,
         "realtime": REALTIME,
-        "trains": TRAINS
+        "trains": TRAINS,
+        "restaurants": RESTAURANTS
     }

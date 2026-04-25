@@ -3,15 +3,26 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-# 停留所データ（固定）
+# 停留所データ（茨城交通 + 関東鉄道）
 STOPS = [
+    # --- 茨城交通 ---
     {
-        "stop_name": "城東小学校前",
+        "stop_name": "城東小学校前（茨城交通）",
         "url": "https://bus.ibako.co.jp/timetable/select/?no=2220&f_from_type=1&f_from=%E5%9F%8E%E6%9D%B1"
     },
     {
-        "stop_name": "水戸駅北口",
+        "stop_name": "水戸駅北口（茨城交通）",
         "url": "https://bus.ibako.co.jp/timetable/result/?no=4176&de=3&f_from_type=1&f_from_genre=&f_from=%E6%B0%B4%E6%88%B8%E9%A7%85"
+    },
+
+    # --- 関東鉄道 ---
+    {
+        "stop_name": "トッパン前（関東鉄道）",
+        "url": "https://kantetsu.jorudan.biz/?p=d&sc=4530&pn=1&v=&b1=%E3%83%88%E3%83%83%E3%83%91%E3%83%B3%E5%89%8D&m=b"
+    },
+    {
+        "stop_name": "水戸駅北口（関東鉄道）",
+        "url": "https://www.kantetsu.co.jp/cms/wp-content/themes/kr/pdf/bus/timetable_files/mt/mt07.pdf"
     }
 ]
 
@@ -24,7 +35,7 @@ def index():
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>茨城交通バス停リンク</title>
+        <title>バス停リンク（茨城交通・関東鉄道）</title>
         <style>
             body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
             h1 { font-size: 22px; }
@@ -43,7 +54,7 @@ def index():
         </style>
     </head>
     <body>
-        <h1>茨城交通 バス停リンク</h1>
+        <h1>バス停リンク（茨城交通・関東鉄道）</h1>
         <p>見たい停留所をタップしてください。</p>
     """
 

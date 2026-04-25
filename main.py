@@ -50,7 +50,15 @@ TRAINS = [
     }
 ]
 
-# 東京駅レストラン（GRANSTA）
+# 在来線特急運行情報（JR）
+TRAIN_STATUS = [
+    {
+        "stop_name": "在来線特急運行情報（JR東日本）",
+        "url": "https://traininfo.jreast.co.jp/train_info/chyokyori.aspx"
+    }
+]
+
+# 東京駅レストラン
 RESTAURANTS = [
     {
         "stop_name": "東京駅レストラン（GRANSTA）",
@@ -125,6 +133,18 @@ def index():
         """
 
     html += """
+        <h2>⚠️ 在来線特急運行情報</h2>
+    """
+
+    # 在来線特急運行情報
+    for stop in TRAIN_STATUS:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
         <h2>🍽️ 東京駅レストラン</h2>
     """
 
@@ -152,5 +172,6 @@ def get_stops():
         "timetables": TIMETABLES,
         "realtime": REALTIME,
         "trains": TRAINS,
+        "train_status": TRAIN_STATUS,
         "restaurants": RESTAURANTS
     }

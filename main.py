@@ -3,8 +3,11 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-# 停留所データ（茨城交通 + 関東鉄道）
-STOPS = [
+# -------------------------
+# データ分類
+# -------------------------
+
+TIMETABLES = [
     # --- 茨城交通 ---
     {
         "stop_name": "城東小学校前（茨城交通）",
@@ -26,19 +29,27 @@ STOPS = [
     }
 ]
 
-# -------------------------------
-# ① スマホ向け UI（トップページ）
-# -------------------------------
+REALTIME = [
+    {
+        "stop_name": "バス位置情報（城東小学校 → 水戸駅）【茨城交通】",
+        "url": "https://mc.bus-vision.jp/ibako/view/approach.html?stopCdFrom=792&stopCdTo=51&searchHour=&searchMinute=&searchAD=-1&searchVehicleTypeCd=&searchCorpCd=&lang=0"
+    }
+]
+
+# -------------------------
+# UI（トップページ）
+# -------------------------
 @app.get("/", response_class=HTMLResponse)
 def index():
     html = """
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>バス停リンク（茨城交通・関東鉄道）</title>
+        <title>バス情報リンク</title>
         <style>
             body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
-            h1 { font-size: 22px; }
+            h1 { font-size: 22px; margin-bottom: 10px; }
+            h2 { font-size: 20px; margin-top: 30px; }
             .stop-box {
                 background: white;
                 padding: 15px;
@@ -54,12 +65,25 @@ def index():
         </style>
     </head>
     <body>
-        <h1>バス停リンク（茨城交通・関東鉄道）</h1>
-        <p>見たい停留所をタップしてください。</p>
+        <h1>バス情報リンク</h1>
+
+        <h2>🕒 時刻表</h2>
     """
 
-    # 停留所リストを自動生成
-    for stop in STOPS:
+    # 時刻表リスト
+    for stop in TIMETABLES:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
+        <h2>🚌 バス位置情報（リアルタイム）</h2>
+    """
+
+    # 位置情報リスト
+    for stop in REALTIME:
         html += f"""
         <div class="stop-box">
             <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
@@ -73,9 +97,12 @@ def index():
     return html
 
 
-# -------------------------------
-# ② API：/stops（アプリ用）
-# -------------------------------
+# -------------------------
+# API：/stops（アプリ用）
+# -------------------------
 @app.get("/stops")
 def get_stops():
-    return STOPS
+    return {
+        "timetables": TIMETABLES,
+        "realtime": REALTIME
+    }

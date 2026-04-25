@@ -7,6 +7,7 @@ app = FastAPI()
 # データ分類
 # -------------------------
 
+# 時刻表（バス）
 TIMETABLES = [
     # --- 茨城交通 ---
     {
@@ -29,10 +30,23 @@ TIMETABLES = [
     }
 ]
 
+# バス位置情報（リアルタイム）
 REALTIME = [
     {
         "stop_name": "バス位置情報（城東小学校 → 水戸駅）【茨城交通】",
         "url": "https://mc.bus-vision.jp/ibako/view/approach.html?stopCdFrom=792&stopCdTo=51&searchHour=&searchMinute=&searchAD=-1&searchVehicleTypeCd=&searchCorpCd=&lang=0"
+    }
+]
+
+# 鉄道時刻表（JR）
+TRAINS = [
+    {
+        "stop_name": "水戸駅（JR東日本）",
+        "url": "https://timetables.jreast.co.jp/timetable/list1471.html"
+    },
+    {
+        "stop_name": "東京駅（JR東日本）",
+        "url": "https://timetables.jreast.co.jp/timetable/list1039.html"
     }
 ]
 
@@ -45,7 +59,7 @@ def index():
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>バス情報リンク</title>
+        <title>交通情報リンク</title>
         <style>
             body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
             h1 { font-size: 22px; margin-bottom: 10px; }
@@ -65,12 +79,12 @@ def index():
         </style>
     </head>
     <body>
-        <h1>バス情報リンク</h1>
+        <h1>交通情報リンク</h1>
 
-        <h2>🕒 時刻表</h2>
+        <h2>🕒 バス時刻表</h2>
     """
 
-    # 時刻表リスト
+    # バス時刻表
     for stop in TIMETABLES:
         html += f"""
         <div class="stop-box">
@@ -82,8 +96,20 @@ def index():
         <h2>🚌 バス位置情報（リアルタイム）</h2>
     """
 
-    # 位置情報リスト
+    # バス位置情報
     for stop in REALTIME:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
+        <h2>🚆 鉄道時刻表（JR東日本）</h2>
+    """
+
+    # 鉄道時刻表
+    for stop in TRAINS:
         html += f"""
         <div class="stop-box">
             <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
@@ -104,5 +130,6 @@ def index():
 def get_stops():
     return {
         "timetables": TIMETABLES,
-        "realtime": REALTIME
+        "realtime": REALTIME,
+        "trains": TRAINS
     }

@@ -58,11 +58,23 @@ TRAIN_STATUS = [
     }
 ]
 
-# Yahoo!路線検索（Web）
+# Yahoo!路線検索
 YAHOO = [
     {
         "stop_name": "Yahoo!路線検索（Web版）",
         "url": "https://transit.yahoo.co.jp/"
+    }
+]
+
+# 飛行機（公式サイト）
+AIRLINES = [
+    {
+        "stop_name": "スカイマーク（公式）",
+        "url": "https://www.skymark.co.jp/ja/"
+    },
+    {
+        "stop_name": "JAL（日本航空）公式",
+        "url": "https://www.jal.co.jp/jp/ja/"
     }
 ]
 
@@ -144,7 +156,7 @@ def index():
         <h2>⚠️ 在来線特急運行情報</h2>
     """
 
-    # 在来線特急運行情報
+    # 特急運行情報
     for stop in TRAIN_STATUS:
         html += f"""
         <div class="stop-box">
@@ -156,8 +168,20 @@ def index():
         <h2>🔎 Yahoo!路線検索（Web）</h2>
     """
 
-    # Yahoo!路線検索
+    # Yahoo
     for stop in YAHOO:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
+        <h2>✈️ 飛行機（公式サイト）</h2>
+    """
+
+    # 飛行機
+    for stop in AIRLINES:
         html += f"""
         <div class="stop-box">
             <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
@@ -181,18 +205,3 @@ def index():
     </html>
     """
     return html
-
-
-# -------------------------
-# API：/stops（アプリ用）
-# -------------------------
-@app.get("/stops")
-def get_stops():
-    return {
-        "timetables": TIMETABLES,
-        "realtime": REALTIME,
-        "trains": TRAINS,
-        "train_status": TRAIN_STATUS,
-        "yahoo": YAHOO,
-        "restaurants": RESTAURANTS
-    }

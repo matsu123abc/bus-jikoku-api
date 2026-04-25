@@ -50,11 +50,11 @@ TRAINS = [
     }
 ]
 
-# 在来線特急運行情報（JR）
+# 特急ひたち・ときわ運行情報（JR）
 TRAIN_STATUS = [
     {
         "stop_name": "在来線特急運行情報（JR東日本）",
-        "url": "https://traininfo.jreast.co.jp/train_info/chyokyori.aspx"
+        "url": "https://traininfo.jreast.co.jp/train_info/express.aspx?group=hitachi_tokiwa"
     }
 ]
 

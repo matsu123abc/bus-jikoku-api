@@ -98,7 +98,6 @@ def index():
         <title>交通情報リンク</title>
         <style>
             body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
-            h1 { font-size: 22px; margin-bottom: 10px; }
             h2 { font-size: 20px; margin-top: 30px; }
             .stop-box {
                 background: white;
@@ -115,12 +114,22 @@ def index():
         </style>
     </head>
     <body>
-        <h1>交通情報リンク</h1>
+        <h1 style="
+            text-align:center;
+            font-size:24px;
+            padding:15px;
+            background:#ffffff;
+            border-radius:12px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.15);
+            margin-bottom:25px;
+        ">
+            🚉 交通ポータル
+        </h1>
 
-        <h2>🔎 Yahoo!路線検索</h2>
+        <h2>🔎 Yahoo!路線検索（Web）</h2>
     """
 
-    # ★ Yahoo!路線検索（最上段）
+    # Yahoo!路線検索（最上段）
     for stop in YAHOO:
         html += f"""
         <div class="stop-box">
@@ -168,7 +177,7 @@ def index():
         <h2>⚠️ 在来線特急運行情報</h2>
     """
 
-    # 特急運行情報
+    # 在来線特急運行情報
     for stop in TRAIN_STATUS:
         html += f"""
         <div class="stop-box">
@@ -205,3 +214,19 @@ def index():
     </html>
     """
     return html
+
+
+# -------------------------
+# API：/stops（アプリ用）
+# -------------------------
+@app.get("/stops")
+def get_stops():
+    return {
+        "timetables": TIMETABLES,
+        "realtime": REALTIME,
+        "trains": TRAINS,
+        "train_status": TRAIN_STATUS,
+        "yahoo": YAHOO,
+        "airlines": AIRLINES,
+        "restaurants": RESTAURANTS
+    }

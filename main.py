@@ -117,6 +117,18 @@ def index():
     <body>
         <h1>交通情報リンク</h1>
 
+        <h2>🔎 Yahoo!路線検索</h2>
+    """
+
+    # ★ Yahoo!路線検索（最上段）
+    for stop in YAHOO:
+        html += f"""
+        <div class="stop-box">
+            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
+        </div>
+        """
+
+    html += """
         <h2>🕒 バス時刻表</h2>
     """
 
@@ -158,18 +170,6 @@ def index():
 
     # 特急運行情報
     for stop in TRAIN_STATUS:
-        html += f"""
-        <div class="stop-box">
-            <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
-        </div>
-        """
-
-    html += """
-        <h2>🔎 Yahoo!路線検索（Web）</h2>
-    """
-
-    # Yahoo
-    for stop in YAHOO:
         html += f"""
         <div class="stop-box">
             <a href="{stop['url']}" target="_blank">{stop['stop_name']}</a>
